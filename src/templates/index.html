@@ -1,0 +1,198 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Assistant</title>
+
+        <!--
+        /* 파일 위치 규약. static폴더에 */
+        <link
+            rel="stylesheet"
+            href="{{url_for('static', filename='index.css')}}" />
+        <script
+            type="text/javascript"
+            src="{{ url_for('static', filename='index.js') }}"></script>
+        <img src="{{ url_for('static', filename='img1.png') }}" />
+        -->
+
+    <style>
+        body {
+            background-color:rgb(171, 153, 130);
+            background-image: url('../static/20240412_043945 default.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        h1 {color: crimson;}
+        .talk{background-color: rgb(157, 91, 11);
+                border-radius: 20px;}
+        .content{color: cyan;}
+        .status{color: rgb(191, 0, 255);}
+        .respond{color: rgb(0, 255, 34);}
+        .speaking{color: rgb(255, 111, 0);}
+        .middleBody {flex: 1;}
+        .footer{
+            text-align: left;
+            padding: 10px;
+        }
+     </style>
+</head>
+<body>
+    <h1>  </h1><br><br>
+    <div class="middleBody">
+        <!-- 내용 -->
+    </div>
+    <div class="footer">
+        <button class="talk">Talk</button>
+        <h5 class="content"></h5>
+        <h5 class="status"></h5>
+        <h5 class="respond"></h5>
+        <!-- <h5 class="speaking"></h5> -->
+    </div>
+
+
+    <script>
+        // The JavaScript Part Starts
+        const btn = document.querySelector('.talk');
+        const content = document.querySelector('.content');
+        const status = document.querySelector('.status');
+        const respond = document.querySelector('.respond');
+        const speaking = document.querySelector('.speaking');
+     
+        const YouTube = [
+            'ne haber'
+        ];
+
+        
+        function changeBackgroundImg(feeling) {
+            var imgFile = '20240412_043945 default.jpg';
+            if (feeling=="happy"){
+                imgFile = '20240412_043945 default.jpg'; // ('ω')
+            } else if (feeling=="smile"){
+                imgFile = '20240412_043945 smile.jpg'; // (^ω^)
+            } else if (feeling=="surprise"){
+                imgFile = '20240412_043945 surprise.jpg'; // ('0') (°ロ°)   
+            } else if (feeling=="sad"){
+                imgFile = '20240412_043945 sad.jpg';   // (TωT)
+            } else if (feeling=="angry"){
+                imgFile = '20240412_043945 angry.jpg'; // (-_-+)  
+            } else {
+                imgFile = '20240412_043945 default.jpg'; // ('ω')
+            }
+            document.body.style.backgroundImage = "url('../static/" + imgFile + "')";
+        }
+
+
+        const synth = window.speechSynthesis;
+        function readOutLoud(message){
+            const speech = new SpeechSynthesisUtterance();
+            //speech.text = 'yo';
+            speech.text = message;
+            
+            speech.lang = "ko-KR";
+            const voices = synth.getVoices(); //200쯤? rate1.2 pitch?
+            const kor_voice = voices.find((elem) => elem.name.includes('SunHi'));  //SunHi InJoon Hyunsu 괜찮음. 
+            if (kor_voice) {
+                speech.voice = kor_voice;   //Microsoft Heami - Korean (Korean)                
+            } else {
+                speech.voice = voices.find(
+                    (elem) => elem.lang === "ko-KR" || elem.lang === "ko_KR"
+                )
+                // speech.voice = voices[200];  // 영 못찾을 때 최후의 보루. 
+            }
+            speech.volume = 1;
+            speech.rate = 1.2;
+            speech.pitch = 1;
+            // window.speechSynthesis.speak(speech); // 원본
+            synth.speak(speech);
+            // speaking.textContent = "Test) "+message+" / 현: "+speech.voice.name+" / 200: "+voices[200].name;
+        }
+
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition =  new SpeechRecognition();
+        recognition.lang = "ko-KR";
+
+        recognition.onstart = function(){
+            console.log('시작합니다.')
+        }
+        recognition.onresult = function (event) {
+            const current = event.resultIndex;
+
+            const transcript = event.results[current][0].transcript;
+            content.textContent = transcript;
+            status.textContent = "답변을 기다리는중";
+           //  readOutLoud(transcript);
+           
+            fetch('/send_transcript', {
+                method: 'POST', 
+                body: JSON.stringify({ textContent: transcript }), 
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => response.json())
+            .then(data => {
+                respondMsg=data.received_textContent;
+                console.log("받은메시지= "+respondMsg);
+                status.textContent = "";
+                respond.textContent = respondMsg;
+                if(respondMsg.includes("('ω')")){
+                    changeBackgroundImg("happy");
+                } else if(respondMsg.includes("(^ω^)")){
+                    changeBackgroundImg("smile");
+                } else if (respondMsg.includes("(°ロ°)")) {
+                    changeBackgroundImg("surprise");
+                    
+                } else if (respondMsg.includes("(TωT)")) {
+                    changeBackgroundImg("sad");
+                } else if (respondMsg.includes("(-_-+)")) {
+                    changeBackgroundImg("angry");
+                } else {
+                    changeBackgroundImg("happy");
+                }
+                respondMsg = respondMsg.replace("**", "").replace(/\*\*/g, ""); // 마크다운 특수문자 삭제
+                respondMsg = respondMsg.replace("\\", "").replace(/\\/g, "");
+                respondMsg = respondMsg.replace("^2", "제곱").replace("^3", "세제곱");
+                respondMsg = respondMsg.replace("('ω')", "").replace("(^ω^)", "").replace("(°ロ°)", "").replace("(TωT)", "").replace("(-_-+)", "").replace(":)", "").replace(":D", "").replace("(-^ω^-)", "").replace("\\(^ω^)/", "").replace("\\\\", "").replace("\\", ""); 
+                respondMsg = respondMsg.replace(/[^\u0000-\uFFFF]/g, ''); // 이모지 제거
+                respondMsg = respondMsg.replace(/[\uD800-\uDFFF]|[\uFFFE\uFFFF]|[^\uD800-\uDBFF][\uDC00-\uDFFF]/g, ''); // 이모지 surrogate pair 고려
+                readOutLoud(respondMsg);
+            })
+            // content.textContent = transcript+" ^^";
+            
+        };
+
+        btn.addEventListener('click', () =>{
+            recognition.start();
+            console.log("Ready to receive. btn.Click");
+        });
+        document.body.onclick = () => {
+            recognition.start();
+            console.log("Ready to receive. onClick");
+        };
+        document.addEventListener('keyup', (event) => {
+            const keyName = event.key;
+
+            // As the user releases the Ctrl key, the key is no longer active, // so event.ctrlKey is false.
+            if (keyName === 'Control') {
+                // alert('Control key was released');
+                recognition.start();
+                console.log("Ready to receive. Ctrl keyup.");
+            } else if (keyName === 'q'){
+                //alert('q key was released');
+                recognition.start();
+                console.log("Ready to receive. Ctrl keyup.");
+            } 
+        }, false);
+        
+        document.getElementById('send-button').addEventListener('click', function() {
+        
+        });
+
+    </script>
+</body>
+</html>
