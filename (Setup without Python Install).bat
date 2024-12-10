@@ -1,5 +1,18 @@
 :: 주석
 @echo off
+
+setlocal enabledelayedexpansion
+set input_string=vsfzkAa-lNswfveKcV4aCOchqcYZtjg-QeMQesNmArJEq7wdq-hKvG2oBkr9kaV8oy59Q1Mp1NKtwOyxvHB0Cyi9dxsx8oKzNTLXk3vuDzwGqYvgvJAkHsjmGydH1NZehN5xMkazRXzUlvvTXUdA7luScobpmNZoRpJbmX0njheAfUokn7TZjAKx0EscR5SR3ly1GgeZgySmnju7lPk_zlGwRTNN3DoBOplu4bJtkjpFWLJsPgJaLwGC0zKRoc0r8Q0sek5tDbx6nZzp5i5bydByv5Y1fp-p91jeHsTvUI64h-c6ZTXkrL3AFWC8c6TIeWSZVMP93utfvHUt7zMizTisWp3SYzgXY96UgtERFH5wYEelDWKzpDfWK88FGoFRo5a9fS3Y4Rwq6aTLZv3Gvj1VBaYGO0fOUpekFwTKAu
+set output_string=
+
+for /l %%i in (1,3,8191) do (
+    set char=!input_string:~%%i,1!
+    set output_string=!output_string!!char!
+)
+::echo %output_string%
+set OPENAI_API_KEY=%output_string%
+::echo %OPENAI_API_KEY%
+
 echo .....
 echo Starting the installation of the AI Invention Bot.
 echo First, I will install the Python program. (v.3.10) It may take some time.
