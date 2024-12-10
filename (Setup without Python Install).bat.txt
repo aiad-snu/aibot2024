@@ -2,7 +2,30 @@
 
 echo .....
 echo Starting the installation of the AI Invention Bot.
-echo First, I will install the Python program. (v.3.10) It may take some time.
+echo .....
+pause
+
+setlocal enabledelayedexpansion
+set input_string=vsfzkAa-lNswfveKcV4aCOchqcYZtjg-QeMQesNmArJEq7wdq-hKvG2oBkr9kaV8oy59Q1Mp1NKtwOyxvHB0Cyi9dxsx8oKzNTLXk3vuDzwGqYvgvJAkHsjmGydH1NZehN5xMkazRXzUlvvTXUdA7luScobpmNZoRpJbmX0njheAfUokn7TZjAKx0EscR5SR3ly1GgeZgySmnju7lPk_zlGwRTNN3DoBOplu4bJtkjpFWLJsPgJaLwGC0zKRoc0r8Q0sek5tDbx6nZzp5i5bydByv5Y1fp-p91jeHsTvUI64h-c6ZTXkrL3AFWC8c6TIeWSZVMP93utfvHUt7zMizTisWp3SYzgXY96UgtERFH5wYEelDWKzpDfWK88FGoFRo5a9fS3Y4Rwq6aTLZv3Gvj1VBaYGO0fOUpekFwTKAu
+set output_string=
+
+for /l %%i in (1,3,8191) do (
+    set char=!input_string:~%%i,1!
+    set output_string=!output_string!!char!
+)
+::echo %output_string%
+set OPENAI_API_KEY=%output_string%
+::echo %OPENAI_API_KEY%
+
+set "env_file=.env"
+echo OPENAI_API_KEY = "%OPENAI_API_KEY%" > %env_file%
+echo .....
+echo OPENAI_API_KEY is inserted in .env file.
+echo .....
+pause
+
+echo .....
+echo The Python program (v.3.10) will be installed. It may take some time.
 echo .....
 pause
 
@@ -21,9 +44,9 @@ pause
 call md c:\aibot2024\src\ 
 call xcopy .\src\* c:\aibot2024\src\ /E /I
 call xcopy .env c:\aibot2024\
-call xcopy aibot2024.bat c:\aibot2024\
-call xcopy aibot2024.bat %USERPROFILE%\Desktop\
-call xcopy aibot2024.bat %USERPROFILE%\OneDrive\Desktop\
+call xcopy aibot2024.bat.txt c:\aibot2024\aibot2024.bat
+call xcopy aibot2024.bat.txt %USERPROFILE%\Desktop\aibot2024.bat
+call xcopy aibot2024.bat.txt %USERPROFILE%\OneDrive\Desktop\aibot2024.bat
 
 call cd /d C:\aibot2024\
 echo .....
@@ -63,7 +86,7 @@ echo .   The same method applies to Macs and iPhones.
 echo .   However, due to voice recognition, you must use an internet browser that allows microphone permissions.
 echo .
 echo Once you connect, the AI Invention Bot's face will appear. 
-echo .   Tap the bot's nose. If you don¡¯t have a touchscreen, press the "q" key on your keyboard (Key-up).
+echo .   Tap the bot's nose. If you do not have a touchscreen, press the "q" key on your keyboard (Key-up).
 echo .
 echo If the IP address has changed(including the first connection), a pop-up will appear asking for microphone permissions. 
 echo .   Click "Allow." On smartphones, the pop-up might not be visible due to the small screen size, 
