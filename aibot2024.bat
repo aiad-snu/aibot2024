@@ -1,4 +1,3 @@
-:: ¡÷ºÆ
 @echo off
 
 cd /d C:\aibot2024\
@@ -40,3 +39,4 @@ echo .....
 call python app.py
 
 pause
+:: comments

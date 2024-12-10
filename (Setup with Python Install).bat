@@ -1,4 +1,3 @@
-:: ¡÷ºÆ
 @echo off
 
 echo .....
@@ -87,3 +86,4 @@ pause
 python app.py
 
 pause
+:: comments

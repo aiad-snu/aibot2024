@@ -1,4 +1,3 @@
-:: ¡÷ºÆ
 @echo off
 
 setlocal enabledelayedexpansion
