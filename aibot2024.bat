@@ -1,10 +1,9 @@
-:: Ï£ºÏÑù
+:: ¡÷ºÆ
 @echo off
 
 cd /d C:\aibot2024\
 call venv\Scripts\activate
 call C:\aibot2024\venv\Scripts\activate.bat
-call C:\aibot2024\venv\Scripts\activate.cmd
 call cd /d C:\aibot2024\src\
 
 echo .....
@@ -20,7 +19,7 @@ echo .   The same method applies to Macs and iPhones.
 echo .   However, due to voice recognition, you must use an internet browser that allows microphone permissions.
 echo .
 echo Once you connect, the AI Invention Bot's face will appear. 
-echo .   Tap the bot's nose. If you don‚Äôt have a touchscreen, press the "q" key on your keyboard (Key-up).
+echo .   Tap the bot's nose. If you don°Øt have a touchscreen, press the "q" key on your keyboard (Key-up).
 echo .
 echo If the IP address has changed(including the first connection), a pop-up will appear asking for microphone permissions. 
 echo .   Click "Allow." On smartphones, the pop-up might not be visible due to the small screen size, 
