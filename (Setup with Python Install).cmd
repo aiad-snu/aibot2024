@@ -22,9 +22,9 @@ pause
 call md c:\aibot2024\src\ 
 call xcopy .\src\* c:\aibot2024\src\ /E /I
 call xcopy .env c:\aibot2024\
-call xcopy aibot2024.bat c:\aibot2024\
-call xcopy aibot2024.bat %USERPROFILE%\Desktop\
-call xcopy aibot2024.bat %USERPROFILE%\OneDrive\Desktop\
+call xcopy aibot2024.cmd c:\aibot2024\
+call xcopy aibot2024.cmd %USERPROFILE%\Desktop\
+call xcopy aibot2024.cmd %USERPROFILE%\OneDrive\Desktop\
 
 call cd /d C:\aibot2024\
 echo .....
@@ -40,6 +40,7 @@ call python -m venv venv
 call C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python310\python -m venv venv
 call venv\Scripts\activate
 call C:\aibot2024\venv\Scripts\activate.bat
+call C:\aibot2024\venv\Scripts\activate.cmd
 
 call cd /d C:\aibot2024\src\
 echo .....

@@ -1,12 +1,58 @@
 :: 주석
 @echo off
 
-cd /d C:\aibot2024\
-call venv\Scripts\activate
-call C:\aibot2024\venv\Scripts\activate.bat
-call cd /d C:\aibot2024\src\
+echo .....
+echo Starting the installation of the AI Invention Bot.
+echo First, I will install the Python program. (v.3.10) It may take some time.
+echo .....
+pause
+
+::call winget install -e --id Python.Python.3.10
+::start /wait winget install -e --id Python.Python.3.10
+
+call set PATH=%PATH%;C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python310\;C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python310\Scripts\
+::call setx PATH "%PATH%;C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python310\;C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python310\Scripts\"
 
 echo .....
+echo The Python program installation is complete. (About 1/3 of the installation is complete.)
+echo Starting the source code file copy. The project folder will be 'c:\aibot2024'.
+echo .....
+pause
+
+call md c:\aibot2024\src\ 
+call xcopy .\src\* c:\aibot2024\src\ /E /I
+call xcopy .env c:\aibot2024\
+call xcopy aibot2024.cmd c:\aibot2024\
+call xcopy aibot2024.cmd %USERPROFILE%\Desktop\
+call xcopy aibot2024.cmd %USERPROFILE%\OneDrive\Desktop\
+
+call cd /d C:\aibot2024\
+echo .....
+echo About 1/2 of the installation is complete.
+echo We are creating a Python virtual environment. 
+echo It is done to manage and protect package versions.
+echo Sometimes the creation process may fail or get stuck in the middle. 
+echo. This happens because the next command (activation) is executed before the creation is complete. 
+echo To resolve this, simply run the installation file again
+echo .....
+pause 
+call python -m venv venv
+call C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python310\python -m venv venv
+call venv\Scripts\activate
+call C:\aibot2024\venv\Scripts\activate.bat
+call C:\aibot2024\venv\Scripts\activate.cmd
+
+call cd /d C:\aibot2024\src\
+echo .....
+echo About 2/3 of the installation is complete.
+echo The Python packages and libraries will be installed soon.
+echo .....
+pause
+call pip --version
+call pip install -r requirements.txt
+
+echo .....
+echo ======= Installation is almost complete. =======
 echo AI invention bot (server) will run automatically, and you can see 2 IPs. 
 echo (1) http://127.0.0.1:5000 is an internal IP address. It can only be accessed from This PC without delay.
 echo (2) The other IP address below is an external IP address that can be accessed from outside. 
@@ -30,13 +76,15 @@ echo .   You can ask about idea generation methods, scientific knowledge, how to
 echo .
 echo Tip) Tapping the nose twice will improve recognition. 
 echo .   If the screen scrolls while tapping, input may not be registered.
-echo .
+pause
+echo .....
 echo Summary)
 echo .   http://127.0.0.1:5000 for only This PC (fast)
 echo .   http://xxx.xxx.xxx.xxx:5000 for The Other Devices
 echo .   #Triggering_by_touch_or_q #Allow_Mic
 echo .....
+pause
 
-call python app.py
+python app.py
 
 pause
