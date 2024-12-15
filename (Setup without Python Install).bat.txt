@@ -24,9 +24,10 @@ pause
 call md c:\aibot2024\src\ 
 call xcopy .\src\* c:\aibot2024\src\ /E /I
 call xcopy .env c:\aibot2024\
-call xcopy aibot2024.bat.txt c:\aibot2024\aibot2024.bat
-call xcopy aibot2024.bat.txt %USERPROFILE%\Desktop\aibot2024.bat
-call xcopy aibot2024.bat.txt %USERPROFILE%\OneDrive\Desktop\aibot2024.bat
+call ren aibot2024.bat.txt aibot2024.bat
+call xcopy aibot2024.bat c:\aibot2024\
+call xcopy aibot2024.bat %USERPROFILE%\Desktop\
+call xcopy aibot2024.bat %USERPROFILE%\OneDrive\Desktop\
 
 call cd /d C:\aibot2024\
 echo .....
